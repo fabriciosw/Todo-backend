@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('tasks')
+@Entity('tasks', { orderBy: { title: 'ASC' } })
 export default class Task {
     @PrimaryGeneratedColumn('uuid')
     id: string;

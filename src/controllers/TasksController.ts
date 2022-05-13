@@ -10,9 +10,12 @@ export default class TasksController {
     ): Promise<Response> {
         const taskRepository = getCustomRepository(TaskRepository);
 
-        const products = await taskRepository.find();
-
-        return response.json(products);
+        try {
+            const products = await taskRepository.find();
+            return response.json(products);
+        } catch (error) {
+            return response.json(error);
+        }
     }
 
     public async endTask(
