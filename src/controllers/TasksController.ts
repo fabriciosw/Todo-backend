@@ -41,15 +41,17 @@ export default class TasksController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { title, description } = request.body;
-
+        const { title, description, user_id } = request.body;
+        const complete = false;
         const tasksRepository = getCustomRepository(TaskRepository);
 
         const task = tasksRepository.create({
             title,
             description,
+            complete,
+            user_id,
         });
-
+        console.log(task);
         await tasksRepository.save(task);
 
         return response.json(task);

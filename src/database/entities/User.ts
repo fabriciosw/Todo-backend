@@ -1,19 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('tasks', { orderBy: { id: 'ASC' } })
+@Entity('tasks')
 export default class Task {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
-    title: string;
+    email: string;
 
     @Column()
-    description: string;
-
-    @Column('boolean')
-    complete: boolean;
-
-    @Column()
-    user_id: number;
+    senha: string;
 }

@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import TasksController from '../../controllers/TasksController';
 import { celebrate, Joi, Segments } from 'celebrate';
+import isAuthenticated from 'src/middlewares/UserAuthenticated';
 
 const tasksRouter = Router();
 const TaskController = new TasksController();
 
-tasksRouter.get('/', TaskController.getAll);
+tasksRouter.get('/', isAuthenticated, TaskController.getAll);
 
 tasksRouter.post(
     '/',
@@ -13,6 +14,7 @@ tasksRouter.post(
         [Segments.BODY]: {
             title: Joi.string().required(),
             description: Joi.string().required(),
+            user_id: Joi.number().required(),
         },
     }),
     TaskController.create,
