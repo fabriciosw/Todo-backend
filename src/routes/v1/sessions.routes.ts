@@ -16,4 +16,14 @@ sessionsRouter.post(
     sessionsController.create,
 );
 
+sessionsRouter.post(
+    '/validate',
+    celebrate({
+        [Segments.HEADERS]: Joi.object({
+            authorization: Joi.string().required(),
+        }).unknown(),
+    }),
+    sessionsController.verify,
+);
+
 export default sessionsRouter;
