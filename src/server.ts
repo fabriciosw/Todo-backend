@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
-import { errors } from 'celebrate';
+import { errors, isCelebrateError } from 'celebrate';
 import routes from './routes';
 import AppError from 'src/utils/AppError';
 import 'src/database';
@@ -19,6 +19,12 @@ app.use(errors());
 app.use((error: Error, request: Request, response: Response) => {
     if (error instanceof AppError) {
         return response.status(error.statusCode).json({
+            status: 'error',
+            message: error.message,
+        });
+    }
+    if (isCelebrateError(error)) {
+        return response.status(400).json({
             status: 'error',
             message: error.message,
         });

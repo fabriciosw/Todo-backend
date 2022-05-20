@@ -8,10 +8,13 @@ export default class TasksController {
         request: Request,
         response: Response,
     ): Promise<Response> {
+        const user = request.headers.user;
         const taskRepository = getCustomRepository(TaskRepository);
 
         try {
-            const products = await taskRepository.find();
+            const products = await taskRepository.find({
+                where: { user_id: user },
+            });
             return response.json(products);
         } catch (error) {
             return response.json(error);

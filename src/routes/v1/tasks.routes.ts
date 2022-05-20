@@ -6,15 +6,11 @@ import isAuthenticated from 'src/middlewares/UserAuthenticated';
 const tasksRouter = Router();
 const TaskController = new TasksController();
 
-tasksRouter.get(
-    '/',
-    // isAuthenticated,
-    TaskController.getAll,
-);
+tasksRouter.get('/', isAuthenticated, TaskController.getAll);
 
 tasksRouter.post(
     '/',
-    // isAuthenticated,
+    isAuthenticated,
     celebrate({
         [Segments.BODY]: {
             title: Joi.string().required(),
@@ -27,7 +23,7 @@ tasksRouter.post(
 
 tasksRouter.put(
     '/:id',
-    // isAuthenticated,
+    isAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.number().required(),
@@ -38,7 +34,7 @@ tasksRouter.put(
 
 tasksRouter.delete(
     '/:id',
-    // isAuthenticated,
+    isAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.number().required(),
