@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import isAuthenticated from 'src/middlewares/UserAuthenticated';
 import AppError from 'src/utils/AppError';
 import CreateSessionsService from '../services/CreateSession';
 import authConfig from 'src/config/auth';
+
 export default class SessionsController {
     public async create(
         request: Request,
@@ -13,12 +13,12 @@ export default class SessionsController {
 
         const createSession = new CreateSessionsService();
 
-        const user = await createSession.execute({
+        const token = await createSession.execute({
             email,
             password,
         });
 
-        return response.json(user.token);
+        return response.json(token);
     }
 
     public async verify(request: Request, response: Response) {

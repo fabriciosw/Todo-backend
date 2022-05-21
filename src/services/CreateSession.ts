@@ -2,7 +2,6 @@ import AppError from 'src/utils/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
-import User from 'src/database/entities/User';
 import UsersRepository from 'src/database/repositories/UsersRepository';
 import authConfig from 'src/config/auth';
 
@@ -11,13 +10,8 @@ interface IRequest {
     password: string;
 }
 
-interface IResponse {
-    user: User;
-    token: string;
-}
-
 class CreateSessionsService {
-    public async execute({ email, password }: IRequest): Promise<IResponse> {
+    public async execute({ email, password }: IRequest): Promise<string> {
         const usersRepository = getCustomRepository(UsersRepository);
         const user = await usersRepository.findByEmail(email);
 
@@ -36,10 +30,7 @@ class CreateSessionsService {
             expiresIn: authConfig.jwt.expiresIn,
         });
 
-        return {
-            user,
-            token,
-        };
+        return token;
     }
 }
 
