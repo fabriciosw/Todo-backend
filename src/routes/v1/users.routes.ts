@@ -12,6 +12,9 @@ usersRouter.get(
         [Segments.BODY]: {
             email: Joi.string().required(),
         },
+        [Segments.HEADERS]: Joi.object({
+            authorization: Joi.string().required(),
+        }).unknown(),
     }),
     UserController.getUser,
 );

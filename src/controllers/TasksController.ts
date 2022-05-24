@@ -8,11 +8,14 @@ export default class TasksController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const user = request.headers.user;
-        const taskRepository = getCustomRepository(TaskRepository);
+        const tasksRepository = getCustomRepository(TaskRepository);
+
+        const authHeader = request.headers.authorization;
+
+        const user = tasksRepository.getUserOnPayload(authHeader);
 
         try {
-            const products = await taskRepository.find({
+            const products = await tasksRepository.find({
                 where: { user_id: user },
             });
             return response.json(products);
@@ -44,9 +47,13 @@ export default class TasksController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { title, description, user_id } = request.body;
+        const { title, description } = request.body;
         const complete = false;
         const tasksRepository = getCustomRepository(TaskRepository);
+
+        const authHeader = request.headers.authorization;
+
+        const user_id = tasksRepository.getUserOnPayload(authHeader);
 
         const task = tasksRepository.create({
             title,

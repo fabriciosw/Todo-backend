@@ -15,7 +15,6 @@ tasksRouter.post(
         [Segments.BODY]: {
             title: Joi.string().required(),
             description: Joi.string().required(),
-            user_id: Joi.number().required(),
         },
     }),
     TaskController.create,
